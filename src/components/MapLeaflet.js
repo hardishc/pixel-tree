@@ -1,9 +1,9 @@
-import {Circle, MapContainer, Marker, Popup, TileLayer, Tooltip} from 'react-leaflet'
+import {Circle, MapContainer, Marker, Popup, TileLayer,Tooltip} from 'react-leaflet'
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import customMarker from './assets/tree-color-icon.svg';
 import L from 'leaflet';
-import {Button, Typography, TypographyVariants} from "@mui/material";
+import {Box, Button, Container, Typography, useMediaQuery, useTheme} from "@mui/material";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
 // Custom Icon
@@ -11,7 +11,7 @@ const iconTree = new L.Icon({
     iconUrl: customMarker,
     iconRetinaUrl: customMarker,
     popupAnchor:  [-0, -0],
-    iconSize: [20],
+    iconSize: [30],
 });
 
 // Dark Map
@@ -34,6 +34,8 @@ function MapLeaflet () {
     const defaultCenter = [51.041394, -114.063579];
     const [trees, setTrees] = useState();
     const [day, setDay] = useState(true)
+    const theme = useTheme();
+    const display = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         axios.get(`https://data.calgary.ca/resource/tfs4-3wwa.json?$where=heritage_trees='Y'&$limit=50000`)
@@ -51,39 +53,46 @@ function MapLeaflet () {
                     chunkedLoading
                     maxClusterRadius={100}
                 >
-                {trees.map((marker) => {
-                    const lat = marker.point.coordinates[1]
-                    const lng = marker.point.coordinates[0]
-                    const name = marker.common_name
-
-                    return (
-                        <Marker position={[lat,lng]} key={marker.wam_id} icon={iconTree} autoPanOnFocus={false}>
-                            <Tooltip>
-                                {name} <br/>
-                                <Typography variant="p" sx={{color:'blue'}}>Click for more info</Typography>
-                            </Tooltip>
-                            <Popup>
-                                {name}
-                            </Popup>
-                        </Marker>
-                    )})}
+                    {trees.map((marker) => {
+                        const lat = marker.point.coordinates[1]
+                        const lng = marker.point.coordinates[0]
+                        return (
+                            <Marker position={[lat,lng]} key={marker.wam_id} icon={iconTree} autoPanOnFocus={false}>
+                                {!display &&
+                                    <Tooltip>
+                                        {marker.common_name} <br/>
+                                        <Typography variant="p" sx={{color:'blue'}}>Click for more info</Typography>
+                                    </Tooltip>
+                                }
+                                <Popup>
+                                    <strong>COMMON NAME:</strong> {marker.common_name}<br/>
+                                    {marker.species &&
+                                        <>
+                                        <strong>SPECIES:</strong>  {marker.species}<br/>
+                                        </>
+                                    }
+                                    <strong>LOCATION:</strong> {marker.location_detail}<br/>
+                                    <strong>SIZE:</strong> {marker.mature_size}<br/>
+                                    <strong>RATING:</strong> {marker.rating}<br/>
+                                </Popup>
+                            </Marker>
+                        )})}
                 </MarkerClusterGroup>
             </>
 
     )
 
-
     return (
         <>
             <Button onClick={()=>setDay(!day)}>Change mode</Button>
-            <MapContainer center={defaultCenter} scrollWheelZoom={true} zoom={14}>
+            <MapContainer center={defaultCenter} scrollWheelZoom={true} zoom={14} wheelPxPerZoomLevel={100}>
                 {day ?
                     <DayMap/>
                     :
                     <NightMap/>
                 }
                 {trees &&
-                        <DefaultCustomMarkers/>
+                    <DefaultCustomMarkers/>
                 }
             </MapContainer>
         </>

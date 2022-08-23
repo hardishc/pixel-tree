@@ -15,8 +15,9 @@ function App() {
 
 
     return (
-        <Grid container>
-            <Grid item xs={8}>
+        <Grid container
+              justifyContent="center">
+            <Grid item>
                 <Item>
                     <MapLeaflet/>
                 </Item>
