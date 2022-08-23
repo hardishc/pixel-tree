@@ -13,7 +13,6 @@ function MapLeaflet () {
                 setTrees(data);
             })
     }, []);
-
     return (
 
         <MapContainer center={defaultCenter} zoom={13} scrollWheelZoom={true}>
@@ -21,7 +20,22 @@ function MapLeaflet () {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-
+            {trees &&
+                <>
+                    {trees.map((marker) => {
+                        const markerPos = marker.point.coordinates
+                        return (
+                            <Marker position={
+                                [
+                                    markerPos[1],
+                                    markerPos[0]
+                                ]} key={marker.wam_id}>
+                                <Popup>
+                                    A pretty CSS3 popup. <br /> Easily customizable.
+                                </Popup>
+                            </Marker>
+                        )})}
+                </>
             }
         </MapContainer>
 
