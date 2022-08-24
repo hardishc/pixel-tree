@@ -39,61 +39,55 @@ function App() {
     return (
         <>
             <>
-                <motion.div
-                    initial={{opacity:0}}
-                    animate={{opacity:1}}
-                    transition={{delay: 0.05}}
-                >
-                    <Grid container
-                          alignItems="center"
-                          sx={{boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
-                        <Grid item xs={6}>
-                            <Item>
-                                <Header/>
-                            </Item>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Item>
-                                {day ?
-                                    <>
-                                        <Typography variant={'h5'}>Light Map</Typography>
-                                        <Switch checked={!day} onChange={() => setDay(!day)}/>
-                                        <motion.div
-                                            initial={{opacity:1}}
-                                            animate={{opacity:0.5}}
-                                            transition={{ duration: 0.00 }}
-                                        >
-                                            <Typography variant={'h5'}>Dark Map</Typography>
-                                        </motion.div>
-                                    </>
-                                    :
-                                    <>
-                                        <motion.div
-                                            initial={{opacity:1}}
-                                            animate={{opacity:0.5}}
-                                            transition={{ duration: 0 }}
-                                        >
-                                            <Typography variant={'h5'} sx={{visibility: 'visible'}}>Light Map</Typography>
-                                        </motion.div>
-                                        <Switch checked={!day} onChange={() => setDay(!day)}/>
+                <Grid container
+                      alignItems="center"
+                      sx={{boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
+                    <Grid item xs={11} md={12} lg={6}>
+                        <Item>
+                            <Header/>
+                        </Item>
+                    </Grid>
+                    <Grid item xs={12} md={12} lg={6}>
+                        <Item>
+                            {day ?
+                                <>
+                                    <Typography sx={{ typography: { xs: 'h6', lg: 'h5' }}}>Light Map</Typography>
+                                    <Switch checked={!day} onChange={() => setDay(!day)}/>
+                                    <motion.div
+                                        initial={{opacity:1}}
+                                        animate={{opacity:0.5}}
+                                        transition={{ duration: 0.00 }}
+                                    >
+                                        <Typography sx={{ typography: { xs: 'h6', lg: 'h5' }}}>Dark Map</Typography>
+                                    </motion.div>
+                                </>
+                                :
+                                <>
+                                    <motion.div
+                                        initial={{opacity:1}}
+                                        animate={{opacity:0.5}}
+                                        transition={{ duration: 0 }}
+                                    >
+                                        <Typography sx={{ typography: { xs: 'h6', lg: 'h5' }}} >Light Map</Typography>
+                                    </motion.div>
+                                    <Switch checked={!day} onChange={() => setDay(!day)}/>
 
-                                        <Typography variant={'h5'} >Dark Map</Typography>
+                                    <Typography sx={{ typography: { xs: 'h6', lg: 'h5' }}} >Dark Map</Typography>
 
-                                    </>
-                                }
+                                </>
+                            }
+                        </Item>
+                    </Grid>
+                </Grid>
+                {!loading &&
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Item>
+                                <MapLeaflet day={day}/>
                             </Item>
                         </Grid>
                     </Grid>
-                    {!loading &&
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <Item>
-                                    <MapLeaflet day={day}/>
-                                </Item>
-                            </Grid>
-                        </Grid>
-                    }
-                </motion.div>
+                }
             </>
 
         </>
