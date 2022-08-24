@@ -5,12 +5,14 @@ import customMarker from './assets/tree-color-icon.svg';
 import L from 'leaflet';
 import {Button, Typography, useMediaQuery, useTheme} from "@mui/material";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import {AnimatePresence, motion} from "framer-motion";
 
 // Custom Icon
 const iconTree = new L.Icon({
     iconUrl: customMarker,
     iconRetinaUrl: customMarker,
-    popupAnchor:  [-0, -0],
+    iconAnchor: [0, 0],
+    popupAnchor: [-0, -0],
     iconSize: [30],
 });
 
@@ -45,7 +47,6 @@ function MapLeaflet (props) {
             })
     }, []);
 
-
     // Default markers
     const DefaultCustomMarkers=(()=>
             <>
@@ -73,29 +74,26 @@ function MapLeaflet (props) {
                                 <strong>RATING:</strong> {marker.rating}<br/>
                             </Popup>
                         </Marker>
-
                     ))}
-
                 </MarkerClusterGroup>
-
             </>
-
     )
 
-    return (
-        <>
+        return (
+            <>
                 <MapContainer center={defaultCenter} scrollWheelZoom={true} zoom={14} wheelPxPerZoomLevel={100}>
                     {day ?
                         <DayMap/>
                         :
                         <NightMap/>
                     }
+
                     {trees &&
                         <DefaultCustomMarkers/>
                     }
                 </MapContainer>
-        </>
-    )
+            </>
+        )
 }
 
 export default MapLeaflet
