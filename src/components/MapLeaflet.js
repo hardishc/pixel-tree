@@ -1,11 +1,10 @@
-import {Circle, MapContainer, Marker, Popup, TileLayer,Tooltip} from 'react-leaflet'
-import {useEffect, useRef, useState} from "react";
+import {MapContainer, Marker, Popup, TileLayer,Tooltip} from 'react-leaflet'
+import {useEffect, useState} from "react";
 import axios from "axios";
 import customMarker from './assets/tree-color-icon.svg';
 import L from 'leaflet';
-import {Button, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Typography, useMediaQuery, useTheme} from "@mui/material";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import {AnimatePresence, motion} from "framer-motion";
 
 // Custom Icon
 const iconTree = new L.Icon({

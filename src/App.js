@@ -1,9 +1,9 @@
 import './App.css';
 import MapLeaflet from './components/MapLeaflet'
-import {Box, Icon, Switch, Grid, Paper, styled, Typography, CircularProgress} from "@mui/material";
+import {Box, Switch, Grid, styled, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import Header from "./components/Header";
-import {AnimatePresence, motion} from "framer-motion";
+import {motion} from "framer-motion";
 import Loading from "./components/Loading";
 
 function App() {
